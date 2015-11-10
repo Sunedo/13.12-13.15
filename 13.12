@@ -1,0 +1,105 @@
+/*
+U10216010 ZHIWENZHAN
+Plots the sine function in red and cosine in blue.
+
+*/
+
+
+import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Polygon;
+
+public class Plot_the_sine_and_cosine extends JFrame {
+	
+	public Plot_the_sine_and_cosine() {
+		setTitle("Plot_the_sine_and_cosine");
+	    add(new PolylinePanel());
+	}
+
+	/** Main method */
+	public static void main(String[] args) {
+		Plot_the_sine_and_cosine frame = new Plot_the_sine_and_cosine();
+		frame.setLocationRelativeTo(null); // Center the frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(400, 250);
+		frame.setVisible(true);
+	}
+}
+
+// Draw a polygon in the panel
+class PolylinePanel extends JPanel {
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	
+		int xCenter = getWidth() / 2;
+		int yCenter = getHeight() / 2;
+
+		int sine_x[];
+		int sine_y[];
+		sine_x = new int[50];
+		sine_y = new int[50];
+		
+		g.setColor(Color.RED);
+		for (int l = -8 ; l < 9; l++){
+			for (int i = -25; i < 25; i++) {
+				sine_x[ i + 25 ] = i * l + xCenter;
+				sine_y[ i + 25 ] = 100 - (int)(50 * Math.sin( ( i*l / 100.0 ) * 2 * Math.PI ) );
+			}
+			// Draw the sine line
+			g.drawPolyline( sine_x, sine_y, sine_x.length);
+		}
+
+		
+		int cosine_x[];
+		int cosine_y[];
+		cosine_x = new int[50];
+		cosine_y = new int[50];
+		
+		g.setColor(Color.BLUE);
+		for (int l = -8 ; l < 9; l++){
+			for (int i = -25; i < 25; i++) {
+				cosine_x[ i + 25 ] = i * l + xCenter;
+				cosine_y[ i + 25 ] = 100 - (int)(50 * Math.cos( ( i*l / 100.0 ) * 2 * Math.PI ) );
+			}
+			// Draw the sine line
+			g.drawPolyline( cosine_x, cosine_y, cosine_x.length);
+		}
+		
+		g.setColor(Color.BLACK);
+		// Draw the X line
+		int xline_x[] = { 0, (xCenter * 2) };
+		int xline_y[] = { yCenter, yCenter };
+		g.drawPolyline( xline_x, xline_y, xline_x.length);
+		int xArrow_x[] = { (xCenter * 2) -20 , (xCenter * 2) , (xCenter * 2) - 20 };
+		int xArrow_y[] = { yCenter - 10 , yCenter, yCenter +10 };
+		g.drawPolyline( xArrow_x, xArrow_y, xArrow_x.length);
+		//X
+		g.drawString("X", xCenter*2 - 10 , yCenter + 20);
+		
+		// Draw the Y line
+		int yline_x[] = { xCenter, xCenter };
+		int yline_y[] = { 0, (yCenter * 2) };
+		g.drawPolyline( yline_x, yline_y, xline_x.length);
+		int yArrow_x[] = { xCenter - 10 , xCenter, xCenter +10 };
+		int yArrow_y[] = { 20 , 0, 20 };
+		g.drawPolyline( yArrow_x, yArrow_y, yArrow_x.length);
+		//Y
+		g.drawString("Y", xCenter + 10 , 20);
+		
+		//-2 pi
+		g.drawString("-2\u03c0", xCenter - xCenter/2 , yCenter + 10);
+		//- pi
+		g.drawString("-\u03c0", xCenter - xCenter/4 , yCenter + 10);
+		//pi
+		g.drawString("\u03c0", xCenter + xCenter/4 , yCenter + 10);
+		//2 pi
+		g.drawString("2\u03c0", xCenter + xCenter/2 , yCenter + 10);
+		//0
+		g.drawString("0", xCenter - 10, yCenter +10);
+
+
+	}
+}
